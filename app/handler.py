@@ -18,19 +18,23 @@ async def handle_link(message: types.Message):
     Returns:
         None
     """
-    # Check if the user has the correct permissions and if the message is a link
+    # Check if the user has the correct permissions and if the message is a
+    # link
     try:
         # Check if the user has the correct permissions
-        if str(message.from_user.id) == str(owned) and message.text.startswith("/link"):
+        if message.from_user.id == int(owned) \
+                and message.text.startswith("/link"):
             # Add the link to the database
             link = message.text.replace("/link ", "")
             add_link(link)
             await message.answer("Link adicionado com sucesso!")
         else:
-            # If the user does not have the correct permissions, send a message asking the age
+            # If the user does not have the correct permissions, send a
+            # message asking the age
             # Create the inline keyboard markup
             try:
-                # Define the inline keyboard with the options to confirm or decline
+                # Define the inline keyboard with the options to confirm or
+                # decline
                 start_buttons = InlineKeyboardMarkup(
                     inline_keyboard=[[
                         InlineKeyboardButton(
@@ -40,8 +44,10 @@ async def handle_link(message: types.Message):
                     resize_keyboard=True
                 )
                 # Send the message asking the age
-                start_message = await message.answer("Olá, você tem 18 anos de idade?",
-                                                     reply_markup=start_buttons)
+                await message.answer(
+                    "Olá, você tem 18 anos de idade?",
+                    reply_markup=start_buttons
+                )
             except Exception as error:
                 # If there is an error, send a message indicating the link is invalid
                 await message.answer("Erro: link inválido. Tente novamente.")
@@ -75,7 +81,7 @@ async def handle_yes(callback: types.CallbackQuery):
 
         # Create the inline keyboard markup with the "Abrir" button
         open = InlineKeyboardMarkup(
-            inline_keyboard=[[InlineKeyboardButton(text="Abrir", url=link)]]
+            inline_keyboard=[[InlineKeyboardButton(text="Jogar", url=link)]]
         )
 
         # Send a new message with the link

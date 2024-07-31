@@ -82,38 +82,6 @@ def add_link(link: str) -> None:
         # Add the link to the database
         # The SQL query updates the "link" field in the "link" table with the
         # provided link
-        cursor.execute("UPDATE link SET link = ?", (link,))
-
-        # Save the changes to the database
-        db.commit()
-
-    # If there is an error, log the error
-    except sqlite3.Error as error:
-        logger.error(f"Error adding link to database: {error}")
-
-
-def add_link(link: str) -> None:
-    """
-    Add a link to the database.
-
-    Args:
-        link (str): The link to add to the database.
-
-    Raises:
-        sqlite3.Error: If there is a problem with the database.
-        Exception: If there is an unexpected error.
-
-    This function connects to the database, updates the "link" table with the
-    provided link, and saves the changes to the database.
-    """
-    try:
-        # Connect to the database
-        db = sqlite3.connect(DB_PATH)
-        cursor = db.cursor()
-
-        # Add the link to the database
-        # The SQL query updates the "link" field in the "link" table with the
-        # provided link
         # Execute the SQL query
         cursor.execute("UPDATE link SET link = ?", (link,))
 
