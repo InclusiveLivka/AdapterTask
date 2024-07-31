@@ -6,7 +6,8 @@ import os
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-DB_PATH = os.path.join("data", "data.db")
+os.makedirs("data", exist_ok=True)
+DB_PATH = os.path.join("data", "main.db")
 
 create_table_query = """
 
