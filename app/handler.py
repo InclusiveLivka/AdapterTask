@@ -29,19 +29,59 @@ async def handle_link(message: types.Message):
             # If the user does not have the correct permissions, send a message asking the age
             # Create the inline keyboard markup
             try:
+                # Define the inline keyboard with the options to confirm or decline
                 start_buttons = InlineKeyboardMarkup(
                     inline_keyboard=[[
-                        InlineKeyboardButton(
-                            text="Sim", url=str(get_link()[0][0])),
-                        InlineKeyboardButton(text="Não", callback_data="Não")
+                        InlineKeyboardButton(text="✅ Sim", callback_data="Sim"),
+                        InlineKeyboardButton(text="❌ Não", callback_data="Sim")
                     ]],
                     resize_keyboard=True
                 )
                 # Send the message asking the age
-                await message.answer("Olá, você tem 18 anos de idade?",
+                start_message = await message.answer("Olá, você tem 18 anos de idade?",
                                      reply_markup=start_buttons)
             except Exception as error:
+                # If there is an error, send a message indicating the link is invalid
                 await message.answer("Erro: link inválido. Tente novamente.")
     except Exception as error:
+        # If there is an error, print it
         # Print any errors that occur
         print(error)
+
+
+@router.callback_query(F.data == "Sim")
+async def handle_yes(callback: types.CallbackQuery):
+    """
+    Handle a callback query with the data "Sim".
+
+    This function deletes the message associated with the callback query and
+    sends a new message with a link to the user. The link is obtained from the
+    database using the get_link() function.
+
+    Args:
+        callback (types.CallbackQuery): The callback query to handle.
+
+    Returns:
+        None
+    """
+    # Delete the message associated with the callback query
+    await callback.message.delete()
+
+    try:
+        # Get the link from the database
+        link = get_link()[0][0]
+
+        # Create the inline keyboard markup with the "Abrir" button
+        open = InlineKeyboardMarkup(
+            inline_keyboard=[[InlineKeyboardButton(text="Abrir", url=link)]]
+        )
+
+        # Send a new message with the link
+        await callback.message.answer(
+            "🎰 Comece sua jornada no mundo dos jogos.",
+            reply_markup=open
+        )
+    except Exception as error:
+        # If there is an error, send a message indicating the link is invalid
+        await callback.message.answer("Erro: link inválido. Tente novamente.")
+
