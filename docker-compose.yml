@@ -9,4 +9,4 @@ services:
       context: .
       dockerfile: Dockerfile
     volumes:
-      - ./app/database/data.db:/app/data/database/data.db
+      - ./data:/app/data/
