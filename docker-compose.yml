@@ -1,0 +1,12 @@
+version: "3.8"
+
+services:
+  app:
+    image: bot_adapter
+    container_name: bot_adapter
+    restart: always
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./app/database/data.db:/app/data/database/data.db
