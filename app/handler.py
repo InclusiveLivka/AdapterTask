@@ -7,7 +7,7 @@ from __init__ import owned
 router = Router()
 
 
-@router.message(F.text)
+@router.message()
 async def handle_link(message: types.Message):
     """
     Handle a message and add a link if the user has the correct permissions.
