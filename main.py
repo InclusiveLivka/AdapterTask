@@ -1,6 +1,8 @@
 import asyncio
 import logging
+
 from aiogram import Bot, Dispatcher
+
 from app.__init__ import setup_routers
 from app.database.engine import intialize_db
 from __init__ import bot

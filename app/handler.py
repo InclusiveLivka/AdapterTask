@@ -1,6 +1,7 @@
 from aiogram import Router, types, F
-from app.database.engine import add_link, get_link
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+
+from app.database.engine import add_link, get_link
 from __init__ import owned
 
 router = Router()
@@ -32,14 +33,15 @@ async def handle_link(message: types.Message):
                 # Define the inline keyboard with the options to confirm or decline
                 start_buttons = InlineKeyboardMarkup(
                     inline_keyboard=[[
-                        InlineKeyboardButton(text="✅ Sim", callback_data="Sim"),
+                        InlineKeyboardButton(
+                            text="✅ Sim", callback_data="Sim"),
                         InlineKeyboardButton(text="❌ Não", callback_data="Sim")
                     ]],
                     resize_keyboard=True
                 )
                 # Send the message asking the age
                 start_message = await message.answer("Olá, você tem 18 anos de idade?",
-                                     reply_markup=start_buttons)
+                                                     reply_markup=start_buttons)
             except Exception as error:
                 # If there is an error, send a message indicating the link is invalid
                 await message.answer("Erro: link inválido. Tente novamente.")
@@ -84,4 +86,3 @@ async def handle_yes(callback: types.CallbackQuery):
     except Exception as error:
         # If there is an error, send a message indicating the link is invalid
         await callback.message.answer("Erro: link inválido. Tente novamente.")
-
